@@ -25,8 +25,8 @@ var G = U - 2 * P;
 var N = W_ / U;
 var M = H_ / U;
 
-var mouseX = 0;
-var mouseY = 0;
+var centerX = 0;
+var centerY = 0;
 
 var dice = function (n) { return Math.floor(Math.random() * n); };
 
@@ -43,8 +43,8 @@ $(function () {
 
     setInterval(function () {
 
-    var centerX = mouseX / U;
-    var centerY = mouseX / U;
+    var centerN = centerX / U;
+    var centerM = centerY / U;
 
     pen.fillStyle = 'hsl(185,70%,38%)';
     pen.fillRect(0, 0, W, H);
@@ -55,13 +55,12 @@ $(function () {
             pen.save();
 
             var p = dice(3) + 2;
-            var p = 3;
+            var p = 4;
             var g = U - p * 2;
 
-            pen.fillStyle = 'hsl(15,90%,24%)';
 
-            var dx = -2 * (i - mouseX / U) - 3 * (j - mouseY / U);
-            var dy = 3 * (i - mouseX / U) - 2 * (j - mouseY / U);
+            var dx = -2 * (i - centerN) - 3 * (j - centerM);
+            var dy = 3 * (i - centerN) - 2 * (j - centerM);
 
             var rad = Math.atan2(dy, dx);
 
@@ -69,7 +68,14 @@ $(function () {
 
             pen.rotate(rad);
 
-            pen.fillRect(- g / 2, - g / 2, g, g);
+            pen.fillStyle = 'hsl(270,76%,30%)';
+
+            pen.fillRect(- g / 2, - g / 2, g / 2, g);
+
+            pen.fillStyle = 'hsl(70,76%,30%)';
+
+            pen.fillRect(0, - g / 2, g / 2, g);
+
 
             pen.restore();
         }
@@ -77,10 +83,37 @@ $(function () {
 
     }, 1000/60);
 
+    /*
     $canvas.on('mousemove', function (event) {
-        window.mouseX = event.offsetX;
-        window.mouseY = event.offsetY;
+        window.centerX = event.offsetX;
+        window.centerY = event.offsetY;
     });
+    */
+
+    var rx = W / 2;
+    var ry = H / 2;
+
+    var B_X = [rx, rx, rx, rx, rx, rx, rx, rx, rx];
+    var B_Y = [ry, ry, ry, ry, ry, ry, ry, ry, ry];
+
+    var D = 25;
+
+    setInterval(function () {
+
+        rx += dice(D * 2 + 1) - D;
+        ry += dice(D * 2 + 1) - D;
+
+        if (rx < 0) { rx = 0; }
+        if (rx > W) { rx = W; }
+        if (ry < 0) { ry = 0; }
+        if (ry > H) { ry = H; }
+
+        B_X.shift(); B_X.push(rx);
+        B_Y.shift(); B_Y.push(ry);
+
+        window.centerX = B_X.reduce(function (x, y) { return x + y; }) / B_X.length;
+        window.centerY = B_Y.reduce(function (x, y) { return x + y; }) / B_Y.length;
+    }, 4);
 
 
 });
