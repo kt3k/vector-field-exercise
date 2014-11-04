@@ -14,8 +14,7 @@ body {
 <script src="../bower_components/jquery/dist/jquery.js"></script>
 <script>
 
-var GUTTER = 2;
-
+var GUTTER = 1;
 var BG_COLOR = 'hsl(185, 55%, 32%)';
 
 var W_ = 560;
@@ -74,27 +73,9 @@ $(function () {
 
             pen.translate(GUTTER + i * U + U / 2, GUTTER + j * U + U / 2);
 
-            pen.beginPath();
-
-            pen.arc(0, 0, G / 2, 0, 2 * Math.PI);
-
-            pen.fillStyle = null;
-
-            pen.shadowColor = 'black';
-            pen.shadowBlur = 3;
-            pen.shadowOffsetX = 0;
-            pen.shadowOffsetY = 3;
-
-            pen.fill();
-
             pen.rotate(rad);
 
             pen.fillStyle = 'hsl(242,78%,30%)';
-
-            pen.shadowColor = null;
-            pen.shadowBlur = 0;
-            pen.shadowOffsetX = 0;
-            pen.shadowOffsetY = 0;
 
             pen.beginPath();
 
