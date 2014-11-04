@@ -101,11 +101,11 @@ $(function () {
 
     setInterval(function () {
 
-        r += Math.PI / 240;
+        r += Math.PI / 80;
 
         r %= 2 * Math.PI;
 
-        window.centerX = (W / 2.5 * Math.sin(r) + W / 2);
+        window.centerX = (W / 1.5 * Math.sin(r) + W / 2);
         window.centerY = (H / 2.5 * Math.cos(r) + H / 2);
 
     }, 1000/60);
