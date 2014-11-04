@@ -97,16 +97,19 @@ $(function () {
 
     }, 1000/60);
 
-    var r = 0;
+    var r_s = 0;
+    var r_c = 0;
 
     setInterval(function () {
 
-        r += Math.PI / 80;
+        r_s += Math.PI / 240;
+        r_c += Math.PI / 200;
 
-        r %= 2 * Math.PI;
+        r_s %= 2 * Math.PI;
+        r_c %= 2 * Math.PI;
 
-        window.centerX = (W / 1.5 * Math.sin(r) + W / 2);
-        window.centerY = (H / 2.5 * Math.cos(r) + H / 2);
+        window.centerX = (W / 2.2 * Math.sin(r_s) + W / 2);
+        window.centerY = (H / 2.2 * Math.cos(r_c) + H / 2);
 
     }, 1000/60);
 
