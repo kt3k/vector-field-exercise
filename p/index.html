@@ -2,7 +2,7 @@
 <style>
 
 body {
-    background-color: hsl(150, 30%, 29%);
+    background-color: hsl(185, 55%, 32%);
 }
 
 </style>
@@ -12,7 +12,7 @@ body {
 
 var GUTTER = 2;
 
-var W_ = 760;
+var W_ = 360;
 var H_ = 360;
 var W = W_ + GUTTER * 2;
 var H = H_ + GUTTER * 2;
@@ -46,8 +46,9 @@ $(function () {
     var centerN = centerX / U;
     var centerM = centerY / U;
 
-    pen.fillStyle = 'hsl(185,70%,38%)';
+    pen.fillStyle = 'hsl(185,55%,32%)';
     pen.fillRect(0, 0, W, H);
+    pen.clearRect(0, 0, W, H);
 
     for (var i = 0; i < N; i++) {
         for (var j = 0; j < M; j++) {
@@ -58,23 +59,31 @@ $(function () {
             var p = 4;
             var g = U - p * 2;
 
+            var X = i - centerN;
+            var Y = j - centerM;
 
-            var dx = -2 * (i - centerN) - 3 * (j - centerM);
-            var dy = 3 * (i - centerN) - 2 * (j - centerM);
+            var dx = -2 * X - 3 * Y;
+            var dy = 3 * X - 2 * Y;
 
             var rad = Math.atan2(dy, dx);
 
             pen.translate(GUTTER + i * U + U / 2, GUTTER + j * U + U / 2);
 
+            pen.fillStyle = 'hsl(185, 55%, 32%)';
+
+            pen.fillRect(- g / 2, - g / 2, g, g);
+
+            pen.globalCompositeOperation = 'source-atop';
+
             pen.rotate(rad);
 
-            pen.fillStyle = 'hsl(270,76%,30%)';
+            pen.fillStyle = 'hsl(242,78%,30%)';
 
-            pen.fillRect(- g / 2, - g / 2, g / 2, g);
+            pen.fillRect(- G / 2, - G / 2, G / 2, G);
 
-            pen.fillStyle = 'hsl(70,76%,30%)';
+            pen.fillStyle = 'hsl(50,86%,33%)';
 
-            pen.fillRect(0, - g / 2, g / 2, g);
+            pen.fillRect(0, - G / 2, G / 2, G);
 
 
             pen.restore();
@@ -96,7 +105,7 @@ $(function () {
     var B_X = [rx, rx, rx, rx, rx, rx, rx, rx, rx];
     var B_Y = [ry, ry, ry, ry, ry, ry, ry, ry, ry];
 
-    var D = 25;
+    var D = 35;
 
     setInterval(function () {
 
@@ -113,6 +122,7 @@ $(function () {
 
         window.centerX = B_X.reduce(function (x, y) { return x + y; }) / B_X.length;
         window.centerY = B_Y.reduce(function (x, y) { return x + y; }) / B_Y.length;
+
     }, 4);
 
 
