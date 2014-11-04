@@ -1,0 +1,83 @@
+
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<script>
+
+var GUTTER = 2;
+
+var W_ = 760;
+var H_ = 360;
+var W = W_ + GUTTER * 2;
+var H = H_ + GUTTER * 2;
+
+var U = 20;
+var HU = U / 2;
+var P = GUTTER;
+var G = U - 2 * P;
+
+var N = W_ / U;
+var M = H_ / U;
+
+var mouseX = 0;
+var mouseY = 0;
+
+var dice = function (n) { return Math.floor(Math.random() * n); };
+
+$(function () {
+
+    var $canvas = $('<canvas />').attr({
+        width: W,
+        height: H,
+    }).appendTo(document.body);
+
+    var pen = $canvas[0].getContext('2d');
+
+    window.pen = pen;
+
+    setInterval(function () {
+
+    var centerX = mouseX / U;
+    var centerY = mouseX / U;
+
+    pen.fillStyle = 'hsl(185,70%,38%)';
+    pen.fillRect(0, 0, W, H);
+
+    for (var i = 0; i < N; i++) {
+        for (var j = 0; j < M; j++) {
+
+            pen.save();
+
+            var p = dice(3) + 2;
+            var p = 3;
+            var g = U - p * 2;
+
+            pen.fillStyle = 'hsl(15,90%,24%)';
+
+            var dx = -2 * (i - mouseX / U) - 3 * (j - mouseY / U);
+            var dy = 3 * (i - mouseX / U) - 2 * (j - mouseY / U);
+
+            var rad = Math.atan2(dy, dx);
+
+            pen.translate(GUTTER + i * U + U / 2, GUTTER + j * U + U / 2);
+
+            pen.rotate(rad);
+
+            pen.fillRect(- g / 2, - g / 2, g, g);
+
+            pen.restore();
+        }
+    }
+
+    }, 1000/60);
+
+    $canvas.on('mousemove', function (event) {
+        window.mouseX = event.offsetX;
+        window.mouseY = event.offsetY;
+    });
+
+
+});
+
+</script>
+
+<body>
+</body>
