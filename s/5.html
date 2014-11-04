@@ -1,0 +1,137 @@
+
+<style>
+
+body {
+    background-color: hsl(185, 55%, 32%);
+}
+
+#main {
+}
+
+</style>
+
+<script src="../bower_components/jquery/dist/jquery.js"></script>
+<script>
+
+var GUTTER = 2;
+
+var BG_COLOR = 'hsl(185, 55%, 32%)';
+
+var W_ = 560;
+var H_ = 560;
+var W = W_ + GUTTER * 2;
+var H = H_ + GUTTER * 2;
+
+var U = 40;
+var HU = U / 2;
+var P = GUTTER;
+var G = U - 2 * P;
+
+var N = W_ / U;
+var M = H_ / U;
+
+var centerX = 0;
+var centerY = 0;
+
+var dice = function (n) { return Math.floor(Math.random() * n); };
+
+var wander = function (n) { return dice(2 * n + 1) - n; };
+
+$(function () {
+
+    var $canvas = $('<canvas />').attr({
+        width: W,
+        height: H,
+    }).appendTo($('#main').css({margin: U + 'px'}));
+
+    var pen = $canvas[0].getContext('2d');
+
+    window.pen = pen;
+
+    setInterval(function () {
+
+    var centerN = centerX / U;
+    var centerM = centerY / U;
+
+    pen.clearRect(0, 0, W, H);
+
+    for (var i = 0; i < N; i++) {
+        for (var j = 0; j < M; j++) {
+
+            pen.save();
+
+            var p = 4;
+            var g = U - p * 2;
+
+            var X = i - centerN;
+            var Y = j - centerM;
+
+            var dx = -2 * X - 3 * Y;
+            var dy = 3 * X - 2 * Y;
+
+            var rad = Math.atan2(dy, dx);
+
+            pen.translate(GUTTER + i * U + U / 2, GUTTER + j * U + U / 2);
+
+            pen.beginPath();
+
+            pen.arc(0, 0, G / 2, 0, 2 * Math.PI);
+
+            pen.fillStyle = null;
+
+            pen.shadowColor = 'black';
+            pen.shadowBlur = 3;
+            pen.shadowOffsetX = 0;
+            pen.shadowOffsetY = 3;
+
+            pen.fill();
+
+            pen.rotate(rad);
+
+            pen.fillStyle = 'hsl(242,78%,30%)';
+
+            pen.shadowColor = null;
+            pen.shadowBlur = 0;
+            pen.shadowOffsetX = 0;
+            pen.shadowOffsetY = 0;
+
+            pen.beginPath();
+
+            pen.arc(0, 0, G / 2, 0, Math.PI);
+
+            pen.fill();
+
+            pen.fillStyle = 'hsl(80,86%,33%)';
+
+            pen.beginPath();
+
+            pen.arc(0, 0, G / 2, Math.PI, 2 * Math.PI);
+
+            pen.fill();
+
+            pen.restore();
+        }
+    }
+
+    }, 1000/60);
+
+    var r = 0;
+
+    setInterval(function () {
+
+        r += Math.PI / 240;
+
+        r %= 2 * Math.PI;
+
+        window.centerX = (W / 2.5 * Math.sin(r) + W / 2);
+        window.centerY = (H / 2.5 * Math.cos(r) + H / 2);
+
+    }, 1000/60);
+
+});
+
+</script>
+
+<body>
+<div id="main"></div>
+</body>
